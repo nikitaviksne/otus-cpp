@@ -6,6 +6,7 @@ set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 project(helloworld VERSION ${PROJECT_VESRION})
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
+option(WITH_GOOGLE_TEST "Whether to build Google test" ON) 
 
 configure_file(version.h.in version.h)
 
@@ -25,6 +26,24 @@ target_link_libraries(helloworld_cli PRIVATE
     helloworld
 )
 
+#Google tests
+if(WITH_GOOGLE_TEST)
+    #message(STATUS, "before enable")
+    enable_testing()
+    #message(STATUS, "before include")
+    include(GoogleTest)
+    #message(STATUS, "before subdirectory")
+    add_subdirectory(tests)
+    
+    #target_link_libraries(GooTest
+#	helloworld
+#	#tests
+#    )
+endif()
+add_subdirectory("googletest")
+target_link_libraries(${BINARY} PRIVATE ${CMAKE_PROJECT_NAME}_lib gtest)
+
+#Boost tests
 if(WITH_BOOST_TEST)
     find_package(Boost COMPONENTS unit_test_framework REQUIRED)
     add_executable(test_version test_version.cpp)
