@@ -26,6 +26,7 @@ target_link_libraries(helloworld_cli PRIVATE
     helloworld
 )
 
+
 #Google tests
 if(WITH_GOOGLE_TEST)
     #message(STATUS, "before enable")
@@ -34,14 +35,16 @@ if(WITH_GOOGLE_TEST)
     include(GoogleTest)
     #message(STATUS, "before subdirectory")
     add_subdirectory(tests)
-    
     #target_link_libraries(GooTest
 #	helloworld
 #	#tests
 #    )
 endif()
 add_subdirectory("googletest")
-target_link_libraries(${BINARY} PRIVATE ${CMAKE_PROJECT_NAME}_lib gtest)
+add_executable(GooTest IMPORTED)
+target_link_libraries(test_version helloworld)
+
+#target_link_libraries(GooTest gtest gtest_main ${PROJECT_NAME})
 
 #Boost tests
 if(WITH_BOOST_TEST)
