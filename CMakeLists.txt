@@ -41,8 +41,8 @@ if(WITH_GOOGLE_TEST)
 #    )
 endif()
 add_subdirectory("googletest")
-add_executable(GooTest IMPORTED)
-target_link_libraries(test_version helloworld)
+#add_executable(GooTest IMPORTED)
+#target_link_libraries(test_version helloworld)
 
 #target_link_libraries(GooTest gtest gtest_main ${PROJECT_NAME})
 

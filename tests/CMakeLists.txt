@@ -1,5 +1,10 @@
+cmake_minimum_required(VERSION 3.12)
+enable_testing()
+
 include(GoogleTest)
-set(GooTestArgs ) # Goo -- Google GooTestArgs empty
 include_directories(../)
+#configure_file(../version.h.in version.h)
 add_executable(GooTest test_version.cpp)
-gtest_add_tests(GooTest "${GooTestArgs}" AUTO)
+target_link_libraries(GooTest PRIVATE GTest::gtest_main helloworld)
+#gtest_add_tests(GooTest "${GooTestArgs}" AUTO)
+gtest_discover_tests(GooTest)
