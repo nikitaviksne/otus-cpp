@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>  
 #include "lib.h"
 
-TEST(TestVersion, NonNegativeVersion) {
+TEST(TestVersion, PositiveVersion) {
 	EXPECT_GT(version(), 0);
 }
 
