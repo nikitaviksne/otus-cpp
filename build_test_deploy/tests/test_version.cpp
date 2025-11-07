@@ -3,7 +3,7 @@
 #include "lib.h"
 
 TEST(TestVersion, PositiveVersion) {
-	EXPECT_GT(version(), 0);
+	EXPECT_GT(version(), 0); 
 }
 
 int main(int nArgs, char** vArgs) {
