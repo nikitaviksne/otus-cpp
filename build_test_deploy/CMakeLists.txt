@@ -40,7 +40,7 @@ if(WITH_GOOGLE_TEST)
 #	#tests
 #    )
 endif()
-add_subdirectory("googletest")
+add_subdirectory("../googletest")
 #add_executable(GooTest IMPORTED)
 #target_link_libraries(test_version helloworld)
 
