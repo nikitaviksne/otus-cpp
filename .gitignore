@@ -1,1 +1,4 @@
-*/build/
+*/build/ #во всех каталогах не включаем папку build и все что в ней находится
+# частные случаи файлов в каталоге filter_-_IP
+filter_-_IP/Idea.md
+#filter_-_IP/ip_test.csv
