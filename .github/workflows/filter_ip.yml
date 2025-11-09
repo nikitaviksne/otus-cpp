@@ -1,4 +1,4 @@
-name: 'Filter IP'
+name: 'C++ CI build & test & deploy'
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
       - feature/github_actions
     paths:
-      - filter_-_IP/**
+      - build_test_deploy/**
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
           submodules: true
       - run: sudo apt-get update && sudo apt-get install libboost-test-dev -y
       - run: mkdir Build && cd Build
-      - run: cmake -S build_test_deploy/ -DPATCH_VERSION=${{ github.run_number }}
+      - run: cmake -S build_test_deploy/ -DPATCH_VERSION=${{ github.run_number }} -DWITH_BOOST_TEST=ON
       - run: cmake --build .
       - run: cmake --build . --target test
       - run: cmake --build . --target package
@@ -38,6 +38,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./filter_ip-0.0.${{ github.run_number }}-Linux.deb
-          asset_name: filter_ip-0.0.${{ github.run_number }}-Linux.deb
+          asset_path: ./helloworld-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: helloworld-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
