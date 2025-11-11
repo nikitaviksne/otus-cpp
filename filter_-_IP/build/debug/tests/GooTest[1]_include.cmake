@@ -1,0 +1,5 @@
+if(EXISTS "/home/nikita/Документы/C_Cpp_progs/otus-cpp/filter_-_IP/build/debug/tests/GooTest[1]_tests.cmake")
+  include("/home/nikita/Документы/C_Cpp_progs/otus-cpp/filter_-_IP/build/debug/tests/GooTest[1]_tests.cmake")
+else()
+  add_test(GooTest_NOT_BUILT GooTest_NOT_BUILT)
+endif()

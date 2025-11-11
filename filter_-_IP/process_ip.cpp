@@ -2,8 +2,25 @@
 #include <cstdint>
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include "process_ip.h"
 #include <algorithm>
+#include <regex>
+
+
+auto readFromStream(std::istream& input)
+{
+	std::string inputStr;
+	input >> inputStr;
+	uint8_t f1,f2,f3,f4;
+	std::regex pattern("^(\\d\.\\d\.\\d\.\\d)\\s*"); //паттерн, в началае строки 4 числа разделенные точкой
+	std::cmatch result;
+	if (std::regex_match(inputStr, resul, patternt))
+	{
+		std::cout << "result is: " << result <<"\n";
+	}
+
+}
 
 void appendItem(std::vector<uint32_t> &ip_pool, int item)
 {

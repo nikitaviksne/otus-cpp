@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include "process_ip.h"
 //#include <algorithm>
 int main()
@@ -9,11 +10,15 @@ int main()
 	int res (10);
 	std::vector<uint32_t> arrIp;
 	int ip;
+	//std::ifstream stream;
+	
 	while (true)
 	{
 		uint8_t f1,f2,f3,f4;
 		//printf("Введите IP: ");
-		res = scanf("%d.%d.%d.%d%*s%*s\n", &f1, &f2, &f3, &f4);
+		//функций чтения из потока
+		//res = fscanf("%d.%d.%d.%d%*s%*s", &f1, &f2, &f3, &f4);
+		readFromStream(std::ifstream::in);
 		//res = scanf("%d", &ip); //просто число для отладки
 		if (res<=0) break;
 		ip = (uint32_t) f4 + (f3<<8) + (f2<<16) + (f1<<24);
