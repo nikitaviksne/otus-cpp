@@ -1,31 +1,25 @@
-#include <stdio.h>
 #include <cstdint>
 #include <vector>
 #include <iostream>
-#include <fstream>
+#include <tuple>
 #include "process_ip.h"
-//#include <algorithm>
 int main()
 {		
 	int res (10);
 	std::vector<uint32_t> arrIp;
 	int ip;
-	//std::ifstream stream;
 	
 	while (true)
 	{
 		uint8_t f1,f2,f3,f4;
-		//printf("Введите IP: ");
 		//функций чтения из потока
-		//res = fscanf("%d.%d.%d.%d%*s%*s", &f1, &f2, &f3, &f4);
-		readFromStream(std::ifstream::in);
-		//res = scanf("%d", &ip); //просто число для отладки
+		std::tie(res, f1, f2, f3, f4) = readFromStream(std::cin);
 		if (res<=0) break;
 		ip = (uint32_t) f4 + (f3<<8) + (f2<<16) + (f1<<24);
-		//printf("было считано %d считанный IP-адресс: %d.%d.%d.%d или %u\n", res, f1,f2,f3,f4, ip);
 		//организуем сразу отсортированный массив по принципу бинарного поиска (или сортировка слиянием?)
 		appendItem(arrIp, ip);
 	}// while true (input)
+	
 	print_ip(arrIp); //вывод отсортированного массива
 	std::vector<uint32_t> fb = grepByFirstByte(arrIp, 1); //фильтрация по первому байту = 1
 	print_ip(fb); //вывод в отсортированном порядке адресов с первым байтом 1

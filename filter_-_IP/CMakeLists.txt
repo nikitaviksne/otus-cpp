@@ -8,31 +8,21 @@ project(filter_ip VERSION ${PROJECT_VESRION})
 option(WITH_BOOST_TEST "Whether to build Boost test" OFF)
 option(WITH_GOOGLE_TEST "Whether to build Google test" ON) 
 
-configure_file(version.h.in version.h)
 
 add_executable(ip_filter main.cpp)
-add_library(version lib.cpp)
 add_library(ip_algorithms process_ip.cpp)
 
-set_target_properties(ip_filter version PROPERTIES
-    CXX_STANDARD 14
-    CXX_STANDARD_REQUIRED ON
-)
 
 set_target_properties(ip_filter ip_algorithms PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
 
-target_include_directories(version
-    PRIVATE "${CMAKE_BINARY_DIR}"
-)
 target_include_directories(ip_algorithms
     PRIVATE "${CMAKE_BINARY_DIR}"
 )
 
 target_link_libraries(ip_filter PRIVATE
-    version
     ip_algorithms
 )
 

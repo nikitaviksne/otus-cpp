@@ -3,23 +3,25 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include "process_ip.h"
 #include <algorithm>
 #include <regex>
+#include "process_ip.h"
 
-
-auto readFromStream(std::istream& input)
+std::tuple<int, uint8_t, uint8_t, uint8_t, uint8_t> readFromStream(std::istream& input)
 {
 	std::string inputStr;
-	input >> inputStr;
+	std::getline(input, inputStr);
 	uint8_t f1,f2,f3,f4;
-	std::regex pattern("^(\\d\.\\d\.\\d\.\\d)\\s*"); //паттерн, в началае строки 4 числа разделенные точкой
-	std::cmatch result;
-	if (std::regex_match(inputStr, resul, patternt))
+	std::regex pattern("^(\\d*)\\.(\\d*)\\.(\\d*)\\.(\\d*)"); //паттерн, в началае строки 4 числа разделенные точкой
+	std::smatch result;
+	if (std::regex_search(inputStr, result, pattern))
 	{
-		std::cout << "result is: " << result <<"\n";
+		return std::make_tuple(4, (uint8_t) stoi(result[1]), (uint8_t) stoi(result[2]), (uint8_t)stoi(result[3]), (uint8_t)stoi(result[4]));
 	}
-
+	else
+	{
+		return std::make_tuple((int) 0, (uint8_t) 0, (uint8_t) 0, (uint8_t) 0, (uint8_t) 0);
+	}
 }
 
 void appendItem(std::vector<uint32_t> &ip_pool, int item)
@@ -36,28 +38,18 @@ void appendItem(std::vector<uint32_t> &ip_pool, int item)
 		}
 		else
 		{	
-#if 1
 			if (item <(uint32_t) ip_pool[low]) //если новый элемент меньше последнего, добавленного в массив, то рассматриваем правую часть
 			{
 				up = ip_pool.size() - 1;
-				//low++;
 			}
 			else
 			{
 				low = 0;
-				//up--;
 			}
-#endif
+			
 			while (low <= up)
 			{
 				int index = (low+up)/2;
-#if 0
-				if ((uint32_t)ip_pool[index] == item)//нашли равный элемен
-				{
-					//ip_pool.insert(ip_pool.begin() + index, item);
-					break;
-				}
-#endif 
 				if ((uint32_t)ip_pool[index] < item) //значит надо вставлять в левую часть
 				{
 					up = index - 1;
@@ -71,13 +63,7 @@ void appendItem(std::vector<uint32_t> &ip_pool, int item)
 			}//while
 			//после этого цикла, если у меня такого же item не будет найдено в массиве, то возникнет ситуация, low >= up, а значит вставлять надо на позицию up+1 = low
 			ip_pool.insert(ip_pool.begin() + low, item);
-#if 0
-			//переназначаем low и up
-			if (up <= 0) up = low + 1;
-			else if (low >= ip_pool.size()) low = up -1;
-#endif
 		}//else (if (size==0) )
-		//printf("size = %d; low = %d; up = %d\n",size, low, up);
 }
 
 std::vector<uint32_t> grepByFirstByte(std::vector<uint32_t> &ip_pool, uint32_t fByte)
