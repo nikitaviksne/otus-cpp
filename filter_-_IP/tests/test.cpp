@@ -96,6 +96,39 @@ TEST(TestIP, SecondByte) {
 	EXPECT_EQ(etalon, output); 
 }
 
+TEST(TestIp, FirstsByte)
+{
+	std::vector<uint32_t> input;
+	std::vector<uint32_t> etalon;
+	std::vector<uint32_t> output;
+	//фильтрация по первому и второму байту
+	input = {(uint32_t) (255<<24) + (uint32_t) (128<<16) + (uint32_t) (1<<8) + 1,
+		(uint32_t) (46<<24) + (uint32_t) (128<<16) + (uint32_t) (1<<8) + 1,
+		(uint32_t) (46<<24) + (uint32_t) (28<<16) + (uint32_t) (0<<8) + 1,
+		(uint32_t) (46<<24) + (uint32_t) (28<<16) + (uint32_t) (5<<8) + (uint32_t) 1,
+		(uint32_t) (45<<24) + (uint32_t) (28<<16) + (uint32_t) (0<<8) + (uint32_t) 1
+	};
+	etalon = {
+		(uint32_t) (46<<24) + (uint32_t) (28<<16) + (uint32_t) (0<<8) + (uint32_t) 1,
+		(uint32_t) (46<<24) + (uint32_t) (28<<16) + (uint32_t) (5<<8) + (uint32_t) 1
+		}; //С чем сравниваем, сначала, специально ломаем тест, чтобыузнать, что он не проходит
+	output = grepByFirstsByte(input, (uint32_t) 46, (uint32_t) 28); //выходной отсортированный вектор
+	
+	EXPECT_EQ(etalon, output); 
+	//фильтрация по первому байту
+	input = {(uint32_t) (255<<24) + (uint32_t) (128<<16) + (uint32_t) (1<<8) + 1,
+		(uint32_t) (146<<24) + (uint32_t) (128<<16) + (uint32_t) (1<<8) + 1,
+		(uint32_t) (46<<24) + (uint32_t) (28<<16) + (uint32_t) (0<<8) + 1,
+		(uint32_t) (45<<24) + (uint32_t) (28<<16) + (uint32_t) (0<<8) + (uint32_t) 1
+	};
+	etalon = {
+		(uint32_t) (46<<24) + (uint32_t) (28<<16) + (uint32_t) (0<<8) + (uint32_t) 1
+		}; //С чем сравниваем, сначала, специально ломаем тест, чтобыузнать, что он не проходит
+	output = grepByFirstsByte(input, (uint32_t) 46); //выходной отсортированный вектор
+	
+	EXPECT_EQ(etalon, output); 
+
+}
 
 TEST(TestIP, AnyByte) {
 	std::vector<uint32_t> input = {(uint32_t) (255<<24) + (uint32_t) (128<<16) + (uint32_t) (1<<8) + 1,

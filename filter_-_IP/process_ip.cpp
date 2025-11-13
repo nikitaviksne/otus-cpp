@@ -3,7 +3,6 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <algorithm>
 #include <regex>
 #include "process_ip.h"
 
@@ -66,40 +65,6 @@ void appendItem(std::vector<uint32_t> &ip_pool, int item)
 		}//else (if (size==0) )
 }
 
-template<typename... Bytes>
-std::vector<uint32_t> grepByFirstsByte(const std::vector<uint32_t> &ip_pool, const Bytes& ...vars)
-{
-	std::vector<uint32_t> ip_out;
-	const size_t n = sizeof...(Bytes);
-	//ищем где начинается первый байт равный fByte
-	auto fByte = std::get<0>(std::tie(vars...));
-	auto it = std::find_if(ip_pool.begin(), ip_pool.end(), [fByte](uint32_t ip){return (ip & (255<<24)) ==( (uint32_t) fByte << 24);});
-	auto it2 = it;
-	if (n>1)
-	{
-		 auto sByte = std::get<1>(std::tie(vars...));
-		it2 = std::find_if(it, ip_pool.end(), [sByte](uint32_t ip){return (ip & (255<<24)) == ((uint32_t) sByte << 24);});
-	}
-	if (it!=ip_pool.end())
-	{
-		for (auto iii=it2; iii!=ip_pool.end(); ++iii)
-		{
-			//Выделяю первую октету IP и сравниваю ее с fByte
-			if ((*iii & (255<<24)) == (uint32_t) (fByte << 24))
-			{
-				if (( (std::get<1>(std::tie(vars...))) << 16) == (*iii &(255<<16)  ))
-				{
-					ip_out.push_back(*iii);
-					
-				}
-			}
-			else //т.к вектор отсортирован, значит дальше ничего уже быть не может
-				break;
-		}
-	}
-	return ip_out;
-
-}
 
 std::vector<uint32_t> grepByFirstByte(std::vector<uint32_t> &ip_pool, uint32_t fByte)
 {
