@@ -23,7 +23,7 @@ int main()
 	print_ip(arrIp); //вывод отсортированного массива
 	std::vector<uint32_t> fb = grepByFirstsByte(arrIp, 1); //фильтрация по первому байту = 1
 	print_ip(fb); //вывод в отсортированном порядке адресов с первым байтом 1
-	std::vector<uint32_t> tfb = grepByFirstsByte(arrIp, (uint32_t) 46,(uint32_t) 70); //фильтрация по первому байту = 46
+	std::vector<uint32_t> tfb = grepByFirstsByte(arrIp, 46, 70); //фильтрация по первому байту 46 и второму байту 70
 	print_ip(tfb); //вывод в отсортированном порядке адресов с первым байтом 46 и вторым 70
 	std::vector<uint32_t> ab = grepByAnyByte(arrIp, (uint32_t) 46); //фильтрация по любому байту = 46
 	print_ip(ab); //вывод в отсортированном порядке адресов с любым байтом 46
