@@ -8,7 +8,7 @@
 TEST(TestIP, ReadFromStream) {
 	//проверка правильности чтения IP адреса со стандартного потока ввода
 	std::ifstream in;
-	in.open("../../filter_-_IP/tests/test.input", std::ios::in);
+	in.open("filter_-_IP/tests/test.input", std::ios::in);
 	EXPECT_TRUE(in.is_open());
 	uint8_t f1,f2,f3,f4;
 	uint32_t ip;
