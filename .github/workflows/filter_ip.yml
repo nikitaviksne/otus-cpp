@@ -19,8 +19,9 @@ jobs:
       - run: mkdir -p Build/Release && cd Build/Release
       - run: cmake -S filter_-_IP -DPATCH_VERSION=${{ github.run_number }}
       - run: cmake --build .
-      - continue-on-error: true
-	run: cmake --build . --target test
+      - name: test
+        continue-on-error: true
+        run: cmake --build . --target test
       - run: cmake --build . --target package
       - name: Create Release
         id: create_release
