@@ -1,2 +1,0 @@
-/usr/bin/ar qc libip_algorithms.a CMakeFiles/ip_algorithms.dir/process_ip.cpp.o
-/usr/bin/ranlib libip_algorithms.a

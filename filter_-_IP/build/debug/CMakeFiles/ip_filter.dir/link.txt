@@ -1,1 +1,0 @@
-/usr/bin/c++ -g -Wl,--dependency-file=CMakeFiles/ip_filter.dir/link.d CMakeFiles/ip_filter.dir/main.cpp.o -o ip_filter  libip_algorithms.a
