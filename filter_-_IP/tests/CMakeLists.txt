@@ -7,6 +7,6 @@ target_include_directories(GooTest PUBLIC GoogleTest)
 target_include_directories(GooTest PUBLIC ../)
 target_link_libraries(GooTest PRIVATE 
 	GTest::gtest_main ip_algorithms
-	version)
+	)
 #gtest_add_tests(GooTest "${GooTestArgs}" AUTO)
 gtest_discover_tests(GooTest)
