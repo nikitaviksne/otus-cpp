@@ -1,4 +1,3 @@
-//#define BOOST_TEST_MODULE test_version
 #include <gtest/gtest.h>  
 #include <vector>
 #include <fstream>
@@ -41,11 +40,9 @@ TEST(TestIP, ReadFromStream) {
 	EXPECT_EQ(ip, 8 + (7<<8) + (6<<16) + (5<<24));
 	//пятый тест (проверка перегруженного оператора)
 	in >> ip_filter;
-	EXPECT_EQ(ip_filter.arrIP, std::vector<uint32_t> (9 + (90<<8) + (128<<16) + (192<<24)) );
-	//шестой тест (проверка перегруженного оператора)
-	in >> ip_filter;
-	EXPECT_EQ(ip_filter.arrIP, std::vector<uint32_t> (9 + (90<<8) + (128<<16) + (192<<24),
-	 1 + (2<<8) + (45<<16) + (128<<24)));
+	std::vector<uint32_t> test5 = {(uint32_t) 9 + (uint32_t) (90<<8) + (uint32_t) (128<<16) + (uint32_t) (192<<24),
+	 (uint32_t) 1 + (uint32_t) (2<<8) + (uint32_t) (45<<16) + (uint32_t) (128<<24)};
+	EXPECT_EQ(ip_filter.arrIP, test5);
 	
 	in.close();
 }

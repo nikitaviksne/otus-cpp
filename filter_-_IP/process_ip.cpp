@@ -98,7 +98,7 @@ std::ostream& operator<<(std::ostream &stream, std::vector<uint32_t> vec)
 {
 	for (auto iii=vec.begin(); iii!=vec.end(); iii++)
 	{
-		stream << *iii << "\n";
+		stream<< ((*iii&(255<<24))>>24) << "." << ((*iii&(255<<16))>>16) <<"." << ((*iii&(255<<8))>>8) << "." << ((*iii&(255<<0))>>0) << "\n";
 	}
     return stream;
 }
@@ -108,16 +108,15 @@ std::istream& operator>>(std::istream& stream,  IpFilter & ip_filter )
 	
 	int ip;
 	int res;	
-//	while (true)
+	uint8_t f1,f2,f3,f4;
+	while (true)
 	{
-		uint8_t f1,f2,f3,f4;
 		//функций чтения из потока
-		std::tie(res, f2, f2, f3, f4) = ip_filter.readFromStream(stream);
-		std::cout << "Прочитали из потока: f1 = "<< (int) f1 << " f2 = " << (int) f2 << " f3 = " << (int) f3 << " f4 = " << (int) f4 << " ip = " << ip << " res = " << res << "\n";
-//		if (res<=0) break;
+		std::tie(res, f1, f2, f3, f4) = ip_filter.readFromStream(stream);
+		if (res<=0) break;
 		ip = (uint32_t) f4 + (f3<<8) + (f2<<16) + (f1<<24);
 		//организуем сразу отсортированный массив по принципу бинарного поиска (или сортировка слиянием?)
 		ip_filter.appendItem(ip);
-	}// while true (input)
+	}
     return stream;
 }
