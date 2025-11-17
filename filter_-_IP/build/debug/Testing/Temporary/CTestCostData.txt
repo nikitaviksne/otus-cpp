@@ -1,0 +1,7 @@
+TestIP.ReadFromStream 52 6.31571e-05
+TestIP.ReverseLexicographySort 83 2.63995e-05
+TestIP.FirstByte 51 0.000109915
+TestIP.SecondByte 50 0.000101535
+TestIP.AnyByte 83 2.49269e-05
+TestIp.FirstsByte 35 6.29386e-05
+---

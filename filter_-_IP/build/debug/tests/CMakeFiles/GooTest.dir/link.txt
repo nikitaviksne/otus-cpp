@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -Wl,--dependency-file=CMakeFiles/GooTest.dir/link.d CMakeFiles/GooTest.dir/test.cpp.o -o GooTest  ../lib/libgtest_main.a ../libip_algorithms.a ../lib/libgtest.a

@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/nikita/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/C_Cpp_progs/otus-cpp/filter_-_IP/build/debug/cmake_install.cmake",
+		"/home/nikita/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/C_Cpp_progs/otus-cpp/filter_-_IP/build/debug/tests/cmake_install.cmake",
+		"/home/nikita/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/C_Cpp_progs/otus-cpp/filter_-_IP/build/debug/googletest/cmake_install.cmake",
+		"/home/nikita/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/C_Cpp_progs/otus-cpp/filter_-_IP/build/debug/googletest/googlemock/cmake_install.cmake",
+		"/home/nikita/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/C_Cpp_progs/otus-cpp/filter_-_IP/build/debug/googletest/googletest/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
