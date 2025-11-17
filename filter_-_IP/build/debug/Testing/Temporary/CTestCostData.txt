@@ -1,7 +1,0 @@
-GooTest_NOT_BUILT 0 0
-TestVersion.PositiveVersion 1 0.00321715
-TestIP.ReverseLexicographySort 1 0.00250844
-TestIP.FirstByte 1 0.00181478
-TestIP.SecondByte 1 0.00216618
-TestIP.AnyByte 1 0.00232162
----
