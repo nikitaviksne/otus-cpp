@@ -1,4 +1,4 @@
-name: 'Filter IP'
+name: 'Allolcator'
 
 on:
   push:
