@@ -84,9 +84,25 @@ public:
 	};
 	using iterator = ListIterator<false>;
 	using const_iterator = ListIterator<true>;
+	// Можно получить размер блока аллокатора если он есть
+    	template<typename A = Allocator>
+    	static constexpr auto get_allocator_block_size() {
+        	if constexpr (requires { A::BLOCKSIZE; }) {
+            		printf("Вызвался метод get_block_size из контейнера\n");
+			return A::BLOCKSIZE;
+			//return 10;
+        	} 
+		else {
+			printf("Не вызвался метод get_block_size из контейнера, кол-во элементов по умолчанию\n");
+	            	return 10; // аллокатор без размера блока (с размером блока по умолчанию)
+        	}
+    	}
 
 	// Конструктор и деструктор
-	MyContainer() : alloc(Allocator()) {}
+	MyContainer() : alloc(Allocator()) {
+		printf("В конструкторе контейнера, количество элементов в конструкторе аллокатора = %d\n", get_allocator_block_size());
+		//MyContainer(get_allocator_block_size(), T, Allocator());
+	}
 	
 	explicit MyContainer(const Allocator& alloc) : alloc(alloc) {}
 	

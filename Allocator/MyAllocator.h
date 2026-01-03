@@ -40,7 +40,7 @@ public:
 
 
 // Аллокатор с параметром конструктора
-template <typename T>
+template <typename T, size_t N = 10>
 class RuntimeBlockAllocator : public std::allocator<T> {
 private:
     size_t block_size_;
@@ -68,10 +68,10 @@ private:
     
 public:
     using value_type = T;
-    
+    static constexpr size_t BLOCKSIZE=N;
     template <typename U>
     struct rebind {
-        using other = RuntimeBlockAllocator<U>;
+        using other = RuntimeBlockAllocator<U, N>;
     };
     
     // Конструктор с параметром размера блока
@@ -101,9 +101,8 @@ public:
         for (auto& block : blocks) {
             if (block->has_space()) {
                 return block->allocate();
-            }
+               }
         }
-        
         auto new_block = std::make_unique<MemoryBlock>(block_size_);
         T* ptr = new_block->allocate();
         blocks.push_back(std::move(new_block));
