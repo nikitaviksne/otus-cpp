@@ -20,7 +20,7 @@ void print_out(const MyContainer<T, A> &cont)
 int main()
 {
 	//создание RuntimeBlockAllocator 
-	auto alloc = make_block_allocator<std::pair<const int, int>>(10);
+	//auto alloc = make_block_allocator<std::pair<const int, int>>(10);
 	std::map<const int, int, std::less<int>, 
              RuntimeBlockAllocator<std::pair<const int, int>, 10> > myMap(std::less<int>{});
 	//запоняем контейнеры
