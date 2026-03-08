@@ -1,8 +1,9 @@
 **/build/* #во всех каталогах не включаем папку build и все что в ней находится
 ./**/build #во всех каталогах не включаем папку build и все что в ней находится
 Allocator/build/*
-# частные случаи файлов в каталоге filter_-_IP
+# частные случаи файлов в каталогах
 filter_-_IP/Idea.md
 #filter_-_IP/ip_test.csv
 SFINAE/build/*
 Editor/build/*
+Matrix/build/*
