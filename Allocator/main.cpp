@@ -19,10 +19,14 @@ void print_out(const MyContainer<T, A> &cont)
 
 int main()
 {
-	//создание RuntimeBlockAllocator 
+	//создание MyAllocator 
 	//auto alloc = make_block_allocator<std::pair<const int, int>>(10);
-	std::map<const int, int, std::less<int>, 
-             RuntimeBlockAllocator<std::pair<const int, int>, 10> > myMap(std::less<int>{});
+	
+	// Для std::map
+	std::map<int, int, std::less<int>, MyAllocator<std::pair<const int, int>, 10>> myMap;
+
+
+
 	//запоняем контейнеры
 	for (int iii =0; iii < 10; iii++)
 	{
@@ -36,11 +40,12 @@ int main()
 	printf("Выводим контейнер myMap с аллокатором, в качетсве шаблонного параметра передано кол-во элементов\n");
 	print_out(myMap);
 
-	MyContainer<int> justContainer;
+	// Для своего контейнера	
+	MyContainer<int, MyAllocator<int, 10>> justContainer;
 	for (int iii=0; iii<10; ++iii)
 		justContainer.push_back(iii);
 	
-	MyContainer <int, RuntimeBlockAllocator<int, 10> > customContainer;
+	MyContainer <int, MyAllocator<int, 10> > customContainer;
 	
 	for (int iii=0; iii<10; ++iii)
 		customContainer.push_back(iii);
