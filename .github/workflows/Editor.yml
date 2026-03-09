@@ -17,7 +17,7 @@ jobs:
         with:
           submodules: true
       - run: mkdir -p Build/Release && cd Build/Release
-      - run: cmake -S editor -DPATCH_VERSION=${{ github.run_number }}
+      - run: cmake -S Editor -DPATCH_VERSION=${{ github.run_number }}
       - run: cmake --build .
       - run: cmake --build . --target test
       - run: cmake --build . --target package
@@ -36,6 +36,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+	allowUpdates: true
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./Editor-0.0.${{ github.run_number }}-Linux.deb
