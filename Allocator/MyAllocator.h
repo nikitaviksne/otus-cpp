@@ -4,38 +4,44 @@
 
 template <typename T, std::size_t N>
 class MyAllocator {
+    struct Storage {
+        std::vector<char> data;
+        std::size_t used_bytes = 0; // Считаем байты
+
+        Storage() {
+            data.reserve((N + 1) * sizeof(T));
+        }
+    };
+
+    std::shared_ptr<Storage> pool;
+
 public:
     using value_type = T;
 
-    MyAllocator() noexcept = default;
+    MyAllocator() : pool(std::make_shared<Storage>()) {}
 
     template <typename U>
-    MyAllocator(const MyAllocator<U, N>&) noexcept {}
+    MyAllocator(const MyAllocator<U, N>& other) noexcept : pool(other.pool) {}
 
     T* allocate(std::size_t n) {
-        // Проверка: стандартные контейнеры могут запросить n > 1 
-        if (used_ + n > N) {
+        std::size_t bytes_needed = n * sizeof(T);
+        
+        // Проверяем лимит
+        if (pool->used_bytes + bytes_needed > (N + 1) * sizeof(T)) {
             throw std::bad_alloc();
         }
 
-        if (!buffer_) {
-            buffer_ = reinterpret_cast<T*>(std::malloc(N * sizeof(T)));
+        if (pool->data.empty()) {
+            pool->data.resize((N + 1) * sizeof(T));
         }
 
-        T* result = buffer_ + used_;
-        used_ += n;
-        return result;
+        void* ptr = &pool->data[pool->used_bytes];
+        pool->used_bytes += bytes_needed;
+        return reinterpret_cast<T*>(ptr);
     }
 
-    void deallocate(T* p, std::size_t n) noexcept {}
+    void deallocate(T*, std::size_t) noexcept {}
 
-    template <typename U>
-    struct rebind {
-        using other = MyAllocator<U, N>;
-    };
-
-private:
-    // Чтобы разные экземпляры MyAllocator<T, N> видели одну память
-    static inline T* buffer_ = nullptr;
-    static inline std::size_t used_ = 0;
+    template <typename U> struct rebind { using other = MyAllocator<U, N>; };
+    template <typename U, std::size_t M> friend class MyAllocator;
 };

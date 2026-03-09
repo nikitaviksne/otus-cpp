@@ -1,13 +1,13 @@
 #include <memory>
 #include <iterator>
 #include <initializer_list>
-#include <stdexcept>
+
 
 template <typename T>
 struct Node {
     T value;
     Node* next;
-    Node(const T& val, Node* nxt) : value(val), next(nxt) {}
+    Node(const T& val) : value(val), next(nullptr) {}
 };
 
 template <typename T, typename Alloc = std::allocator<T>>
@@ -19,7 +19,6 @@ public:
     MyContainer() : head_(nullptr), tail_(nullptr) {}
 
     void push_back(const T& value) {
-        // Выделяем и конструируем новый узел
         NodeT* newNode = std::allocator_traits<NodeAlloc>::allocate(alloc_, 1);
         std::allocator_traits<NodeAlloc>::construct(alloc_, newNode, value);
 
@@ -31,11 +30,15 @@ public:
         }
     }
 
-    // Итератор для обхода
     struct Iterator {
+        using iterator_category = std::forward_iterator_tag;
+        using value_type = T;
+        using pointer = T*;
+        using reference = T&;
+
         NodeT* curr;
-        T& operator*() { return curr->value; }
-        Iterator& operator++() { curr = curr->next; return *this; }
+        reference operator*() const { return curr->value; }
+        Iterator& operator++() { if (curr) curr = curr->next; return *this; }
         bool operator!=(const Iterator& other) const { return curr != other.curr; }
     };
 
@@ -47,3 +50,4 @@ private:
     NodeT* head_;
     NodeT* tail_;
 };
+
