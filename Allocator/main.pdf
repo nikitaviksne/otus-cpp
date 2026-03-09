@@ -17,12 +17,6 @@ void print_out( MyContainer<T, A> &cont)
 		std::cout << it << "\n";
 }
 
-
-int factorial(int n) {
-    return (n == 0) ? 1 : n * factorial(n - 1);
-}
-
-
 int main()
 {
 	//создание MyAllocator 
@@ -35,11 +29,16 @@ int main()
 	std::map<int, int, std::less<int>, MyAllocator<std::pair<const int, int>, 10>> m;
 
 	//запоняем контейнеры
-	for (int i =0; i < 10; i++)
+	for (int iii =0; iii < 10; iii++)
 	{
-		int factr = factorial(i);
-		myMap[i] = factr;
-		m[i] = factr;
+		if ( (iii==0) || (iii == 1))
+		{
+			myMap[iii] = 1;
+			m[iii] = 1;
+			continue;
+		}
+		myMap[iii] = myMap[iii-1] * iii;
+		m[iii] = m[iii-1] * iii;
 	}
 	printf("Выводим контейнер myMap с аллокатором, в качетсве шаблонного параметра передано кол-во элементов\n");
 	print_out(myMap);
@@ -48,15 +47,16 @@ int main()
 	
 	MyContainer <int, MyAllocator<int, 10> > customContainer;
 	
-	for (int i=0; i<10; ++i){
-		customContainer.push_back(factorial(i));
+	std::cout << "Первый контейнер Создался" <<std::endl;	
+	for (int iii=0; iii<10; ++iii){
+		customContainer.push_back(iii);
 	}
 	std::cout << "Выводим свой контейнер с custom аллокатором" <<"\n";
 	print_out(customContainer);
 
 	MyContainer <int > justContainer;
 	for(int i =0; i<10; i++){
-		justContainer.push_back(factorial(i));
+		justContainer.push_back(i);
 	}
 	std::cout << "Выводим свой контейнер с std::аллокатором" <<"\n";
 	print_out(justContainer);

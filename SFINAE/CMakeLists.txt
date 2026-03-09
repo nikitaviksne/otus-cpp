@@ -3,19 +3,15 @@ cmake_minimum_required(VERSION 3.12)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
-project(Allocator VERSION ${PROJECT_VESRION})
+project(sfinae VERSION ${PROJECT_VESRION})
 
 option(WITH_GOOGLE_TEST "Whether to build Google test" ON) 
 
-add_executable(allocator main.cpp)
+add_executable(sfinae sfinae.cpp)
 
-set_target_properties(allocator  PROPERTIES
-    CXX_STANDARD 23
+set_target_properties(sfinae PROPERTIES
+    CXX_STANDARD 11
     CXX_STANDARD_REQUIRED ON
-)
-
-target_include_directories(allocator
-    PRIVATE "${CMAKE_BINARY_DIR}"
 )
 
 
@@ -29,11 +25,14 @@ if(WITH_GOOGLE_TEST)
     add_subdirectory(tests)
 endif()
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../googletest ${CMAKE_CURRENT_BINARY_DIR}/googletest)
-install(TARGETS allocator RUNTIME DESTINATION bin)
+install(TARGETS sfinae RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
-set(CPACK_PACKAGE_CONTACT vixnenik@yandex.ru)
+set(CPACK_PACKAGE_CONTACT example@example.com)
 include(CPack)
+
+
+

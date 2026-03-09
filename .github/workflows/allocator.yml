@@ -1,4 +1,4 @@
-name: 'Allolcator'
+name: 'Allocator'
 
 on:
   push:
