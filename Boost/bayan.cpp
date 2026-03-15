@@ -9,46 +9,11 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
 #include "CFileState.h"
+#include "process.h"
 
 namespace fs = boost::filesystem;
 namespace po = boost::program_options;
 
-void process_group(std::vector<FileState>& group, size_t S) {
-    if (group.size() < 2) return;
-
-    size_t num_blocks = (group[0].size + S - 1) / S;
-    if (group[0].size == 0) num_blocks = 1; // Для пустых файлов
-
-    std::vector<std::vector<FileState*>> current_subgroups;
-    std::vector<FileState*> initial;
-    for (auto& f : group) initial.push_back(&f);
-    current_subgroups.push_back(initial);
-
-    for (size_t b = 0; b < num_blocks; ++b) {
-        std::vector<std::vector<FileState*>> next_subgroups;
-        for (auto& subgroup : current_subgroups) {
-            if (subgroup.size() < 2) continue; // уникальный файл
-
-            std::map<HashValue, std::vector<FileState*>> splitter;
-            for (auto* f : subgroup) {
-                splitter[f->get_block_hash(b, S)].push_back(f);
-            }
-
-            for (auto& pair : splitter) {
-                if (pair.second.size() > 1) {
-                    next_subgroups.push_back(pair.second);
-                } 
-            }
-        }
-        current_subgroups = std::move(next_subgroups);
-        if (current_subgroups.empty()) return;
-    }
-
-    for (const auto& final_group : current_subgroups) {
-        for (auto* f : final_group) std::cout << f->path.string() << std::endl;
-        std::cout << std::endl;
-    }
-}
 
 int main(int argc, char** argv) {
     std::vector<std::string> inc, exc, masks;
@@ -100,7 +65,9 @@ int main(int argc, char** argv) {
     }
 
     for (auto& pair : files_by_size) {
-        process_group(pair.second, block_s);
+	std::vector<std::vector<FileState*>> groupOfFiles;
+        groupOfFiles = process_group(pair.second, block_s);
+	print_out(groupOfFiles);
     }
 
     return 0;

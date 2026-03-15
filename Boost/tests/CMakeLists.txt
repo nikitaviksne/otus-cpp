@@ -4,8 +4,14 @@ enable_testing()
 #configure_file(../version.h.in version.h)
 add_executable(GooTest test.cpp)
 target_include_directories(GooTest PUBLIC GoogleTest)
-target_include_directories(GooTest PUBLIC ../)
+target_include_directories(GooTest PUBLIC "${CMAKE_BINARY_DIR}/..")
 target_link_libraries(GooTest PRIVATE 
-	GTest::gtest_main)
+	GTest::gtest_main
+	FileStateLib	
+	ProcessLib
+	Boost::filesystem
+	Boost::program_options
+	Boost::regex
+)
 #gtest_add_tests(GooTest "${GooTestArgs}" AUTO)
 gtest_discover_tests(GooTest)

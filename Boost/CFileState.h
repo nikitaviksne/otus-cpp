@@ -1,3 +1,6 @@
+#ifndef CFILESTATE_H
+#define CFILESTATE_H
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -27,4 +30,4 @@ public:
     HashValue get_block_hash(size_t block_idx, size_t S) const ;
     
 };
-
+#endif

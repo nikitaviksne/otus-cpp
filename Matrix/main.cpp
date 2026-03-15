@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <memory>
 #include "Matrix.h"
 #include "NMatrix.h"
 
@@ -27,7 +28,6 @@ int main(){
 	for (auto const& [pos, value] : matrix) {
 		std::cout << "[" << pos.first << "][" << pos.second << "] = " << value << std::endl;
 	}
-	
 	(((matrix[100][100]) = 314) = 0) = 159;
 	std::cout << "Каноническая форма оператора присвоения matrix[100][100] = " << matrix[100][100] << std::endl;
 
@@ -50,5 +50,14 @@ int main(){
 		matrix3d.print_coords(coords);
 		std::cout << " = " << value << std::endl;
 	}
+
+	std::unique_ptr<Matrix<int, 0>> m = std::make_unique<Matrix<int, 0>>(); 
+	(*m)[0][0] = 12;  
+	auto proxy = (*m)[0];  
+	//m.reset(); // ещё один вариант m.release();
+	m.release(); // ещё один вариант m.release();
+	std::cout << proxy[0] << std::endl;
+	std::cout << m << std::endl;
+	//std::cout << (*m)[0][0] << std::endl;
 	return 0;
 }

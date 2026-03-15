@@ -8,16 +8,17 @@ project(bayan VERSION ${PROJECT_VESRION})
 option(WITH_GOOGLE_TEST "Whether to build Google test" ON) 
 
 add_executable(bayan bayan.cpp)
-add_library(bayanlib CFileState.cpp)
+add_library(FileStateLib CFileState.cpp)
+add_library(ProcessLib process.cpp)
 
-target_include_directories(bayanlib
+target_include_directories(FileStateLib
     PRIVATE "${CMAKE_BINARY_DIR}"
 )
 target_include_directories(bayan
     PRIVATE "${CMAKE_BINARY_DIR}"
 )
 
-set_target_properties(bayan bayanlib PROPERTIES
+set_target_properties(bayan FileStateLib PROPERTIES
     CXX_STANDARD 23
     CXX_STANDARD_REQUIRED ON
 )
@@ -30,8 +31,8 @@ find_package(Boost 1.74 REQUIRED COMPONENTS
 if (BOOST_FOUND)
 	include_directories(${Boost_INCLUDE_DIRS})
 	target_link_libraries(bayan Boost::filesystem
-					
-					bayanlib
+					FileStateLib
+					ProcessLib 
 					Boost::program_options
 					Boost::regex)
 endif()
