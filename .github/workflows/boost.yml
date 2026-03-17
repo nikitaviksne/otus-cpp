@@ -18,7 +18,7 @@ jobs:
           submodules: true
       - run: sudo apt-get update && sudo apt-get install libboost-test-dev -y
       - run: mkdir -p Build/Release && cd Build/Release
-      - run: cmake -S Boost -DPATCH_VERSION=${{ github.run_number }}
+      - run: cmake -S ../../Boost/ -DPATCH_VERSION=${{ github.run_number }}
       - run: cmake --build .
       - name: test
         continue-on-error: true
