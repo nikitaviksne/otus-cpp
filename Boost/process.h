@@ -4,7 +4,7 @@
 #include <vector>
 #include "CFileState.h"
 
-void print_out(std::vector<std::vector<FileState*>> identicalFiles, std::ostream& out = std::cout);
+void print_out(const std::vector<std::vector<FileState*>> identicalFiles, std::ostream& out = std::cout);
 
-std::vector<std::vector<FileState*>> process_group(std::vector<FileState>& group, size_t S);
+std::vector<std::vector<FileState*>> process_group(const std::vector<FileState>& group, const size_t  S);
 #endif
