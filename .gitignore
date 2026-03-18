@@ -7,4 +7,5 @@ filter_-_IP/Idea.md
 SFINAE/build/*
 Editor/build/*
 Matrix/build/*
+Parser/build/*
 Boost/build/*

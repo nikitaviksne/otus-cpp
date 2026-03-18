@@ -43,12 +43,12 @@ TEST_F(DuplicateFinderTest, IdentifiesDuplicates) {
     CreateFile("f2.txt", "DuplicateContent");
     CreateFile("f3.txt", "UniqueContent");
 
-    std::vector<FileState> group;
+    std::vector< FileState> group;
     group.emplace_back(test_dir / "f1.txt");
     group.emplace_back(test_dir / "f2.txt");
     group.emplace_back(test_dir / "f3.txt");
 
-    std::vector<std::vector<FileState*>> res = process_group(group, 4); // S=4 байта
+    std::vector<std::vector<const FileState*>> res = process_group(group, 4); // S=4 байта
 
     std::stringstream ss;
     print_out(res, ss);

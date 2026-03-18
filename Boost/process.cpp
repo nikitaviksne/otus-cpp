@@ -3,7 +3,7 @@
 #include "CFileState.h"
 
 
-void print_out(const std::vector<std::vector<FileState*>> identicalFiles, std::ostream& out)
+void print_out(const std::vector<std::vector<const FileState*>>& identicalFiles, std::ostream& out)
 {
     //if(!identicalFiles.size()) return;//если пусто возвращаемся
     for (const auto& file : identicalFiles) {

@@ -13,7 +13,7 @@ using HashValue = std::string;
 
 FileState::FileState(fs::path p) : path(p), size(fs::file_size(p)) {}
 
-HashValue FileState::get_block_hash(size_t block_idx, size_t S) const {
+HashValue FileState::get_block_hash(const size_t block_idx, const size_t S) const {
         if (block_idx < hashes.size()) return hashes[block_idx];
 
         if (!stream.is_open()) {

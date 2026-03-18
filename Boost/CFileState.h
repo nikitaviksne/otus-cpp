@@ -27,7 +27,7 @@ public:
 
     FileState(fs::path p);
 
-    HashValue get_block_hash(size_t block_idx, size_t S) const ;
+    HashValue get_block_hash(const size_t block_idx, const size_t S) const ;
     
 };
 #endif

@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
     }
 
     for (auto& pair : files_by_size) {
-	std::vector<std::vector<FileState*>> groupOfFiles;
+	std::vector<std::vector<const FileState*>> groupOfFiles;
         groupOfFiles = process_group(pair.second, block_s);
 	print_out(groupOfFiles);
     }

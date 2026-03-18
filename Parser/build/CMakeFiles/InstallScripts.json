@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/nikita_viksne/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/C_Cpp_progs/otus-cpp/Parser/build/cmake_install.cmake",
+		"/home/nikita_viksne/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/C_Cpp_progs/otus-cpp/Parser/build/tests/cmake_install.cmake",
+		"/home/nikita_viksne/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/C_Cpp_progs/otus-cpp/Parser/build/googletest/cmake_install.cmake",
+		"/home/nikita_viksne/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/C_Cpp_progs/otus-cpp/Parser/build/googletest/googlemock/cmake_install.cmake",
+		"/home/nikita_viksne/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/C_Cpp_progs/otus-cpp/Parser/build/googletest/googletest/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

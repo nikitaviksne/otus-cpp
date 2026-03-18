@@ -1,0 +1,1 @@
+set(  GooTest_TESTS)
