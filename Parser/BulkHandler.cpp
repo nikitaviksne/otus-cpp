@@ -19,7 +19,7 @@ void BulkHandler::process(const std::string& line) {
         if (line == "{") { //Начало динамического блка
             if (depth == 0) flush();
             depth++;
-        } else if (line == "}") { //Конец динамического блока (может сложенного)
+        } else if (line == "}") { //Конец динамического блока (может вложенного)
             depth--;
             if (depth == 0) flush();
         } else { // командна внутри динамического блока
