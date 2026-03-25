@@ -5,8 +5,8 @@
 #include <ctime>
 #include <chrono>
 #include <thread>
-#include <BulkHandler.h>  
-#include <Observer.h>  
+#include "BulkHandler.h"  
+#include "Observer.h"  
 
 using ::testing::_;          // Matcher "любое значение"
 using ::testing::Gt;         // Matcher "Greater Than" (больше чем)

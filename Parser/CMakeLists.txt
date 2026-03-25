@@ -12,10 +12,10 @@ add_library(Observers Observer.cpp)
 add_library(Handler BulkHandler.cpp)
 
 target_include_directories(Observers
-    PRIVATE "${CMAKE_BINARY_DIR}"
+    PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 target_include_directories(Handler
-    PRIVATE "${CMAKE_BINARY_DIR}"
+    PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
 set_target_properties(parser Handler Observers PROPERTIES
