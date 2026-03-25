@@ -1,1 +1,0 @@
-set(  GooTest_TESTS)

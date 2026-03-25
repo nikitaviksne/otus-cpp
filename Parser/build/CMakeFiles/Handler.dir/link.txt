@@ -1,2 +1,0 @@
-/usr/bin/ar qc libHandler.a CMakeFiles/Handler.dir/BulkHandler.cpp.o
-/usr/bin/ranlib libHandler.a

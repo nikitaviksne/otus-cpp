@@ -1,5 +1,0 @@
-if(EXISTS "/home/nikita_viksne/Документы/C_Cpp_progs/otus-cpp/Parser/build/tests/GooTest[1]_tests.cmake")
-  include("/home/nikita_viksne/Документы/C_Cpp_progs/otus-cpp/Parser/build/tests/GooTest[1]_tests.cmake")
-else()
-  add_test(GooTest_NOT_BUILT GooTest_NOT_BUILT)
-endif()
