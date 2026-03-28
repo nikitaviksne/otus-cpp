@@ -86,6 +86,31 @@ TEST(BulkHandlerTest, TimestampIsFromFirstCommand) {
     handler.process("cmd2");
 }
 
+//Проверка исключения на кривые ручки:)
+TEST(BulkHandlerTest, NotOpenBraceAnyExept ) {
+    auto mockObs = std::make_shared<MockObserver>();
+    BulkHandler handler(2);
+    handler.addObserver(mockObs);
+
+   EXPECT_ANY_THROW(handler.process("}"));
+}
+
+TEST(BulkHandlerTest, NotOpenBraceExept ) {
+    auto mockObs = std::make_shared<MockObserver>();
+    BulkHandler handler(2);
+    handler.addObserver(mockObs);
+
+   
+     try {
+   	 handler.process("}");
+   	 FAIL();  // exception not thrown as expected
+     }
+     catch (const char* msg) {
+        EXPECT_STREQ(msg, "Be attention. First you need type open brace '{'");
+    } catch (...) {
+        FAIL() << "Выброшено исключение неизвестного типа";
+    }
+}
 int main(int nArgs, char** vArgs) {
     ::testing::InitGoogleTest(&nArgs, vArgs);
     return RUN_ALL_TESTS(); 

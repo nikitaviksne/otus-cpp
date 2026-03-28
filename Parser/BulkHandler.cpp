@@ -20,6 +20,7 @@ void BulkHandler::process(const std::string& line) {
             if (depth == 0) flush();
             depth++;
         } else if (line == "}") { //Конец динамического блока (может вложенного)
+	    if (depth ==0) throw "Be attention. First you need type open brace '{'";//если закрывающаяся скобка первая, бросается исключение
 	    if (depth > 0) depth--;
             if (depth == 0) flush();
 		
