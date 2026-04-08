@@ -10,3 +10,4 @@ Matrix/build/*
 Parser/build/*
 Parser/*.log
 Boost/build/*
+MultiThreadParser/build/*
