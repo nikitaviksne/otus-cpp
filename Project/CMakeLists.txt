@@ -3,30 +3,18 @@ cmake_minimum_required(VERSION 3.12)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
-project(parser VERSION ${PROJECT_VESRION})
+project(SignalSlotLibrary VERSION ${PROJECT_VESRION})
 
 option(WITH_GOOGLE_TEST "Whether to build Google test" ON) 
 
-add_executable(parser main.cpp)
-add_library(Observers Observer.cpp)
-add_library(Handler BulkHandler.cpp)
+add_library(signal_slot INTERFACE)
+target_include_directories(signal_slot INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include/signal-slot)
 
-target_include_directories(Observers
-    PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
-)
-target_include_directories(Handler
-    PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
-)
-
-set_target_properties(parser Handler Observers PROPERTIES
+set_target_properties(signal_slot PROPERTIES
     CXX_STANDARD 23
     CXX_STANDARD_REQUIRED ON
 )
 
-target_link_libraries(parser PRIVATE
-			Observers
-			Handler
-				)
 
 #Google tests
 if(WITH_GOOGLE_TEST)
@@ -38,7 +26,7 @@ if(WITH_GOOGLE_TEST)
     add_subdirectory(tests)
 endif()
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../googletest ${CMAKE_CURRENT_BINARY_DIR}/googletest)
-install(TARGETS parser RUNTIME DESTINATION bin)
+install(TARGETS signal_slot RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")

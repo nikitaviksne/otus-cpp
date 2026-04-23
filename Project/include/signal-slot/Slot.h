@@ -1,3 +1,8 @@
+#ifndef SLOT_H
+#define SLOT_H
+
+#include "connection.hpp"
+
 template<typename R, typename... Args>
 class Slot {
     // Внутренний буфер для Small Object Optimization
@@ -38,4 +43,4 @@ public:
 
     ~Slot() { if (deleter) deleter(storage); }
 };
-
+#endif

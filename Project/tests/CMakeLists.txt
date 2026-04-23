@@ -5,13 +5,13 @@ enable_testing()
 add_executable(GooTest test.cpp)
 target_include_directories(GooTest PUBLIC GoogleTest)
 target_include_directories(GooTest PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/.."
-					"${CMAKE_CURRENT_SOURCE_DIR}"
+					"${CMAKE_CURRENT_SOURCE_DIR}/include/signal-slot/"
 )
+
 target_link_libraries(GooTest PRIVATE 
 	GTest::gtest_main
 	GTest::gmock
-	Observers
-	Handler 
+	signal_slot
 )
 #gtest_add_tests(GooTest "${GooTestArgs}" AUTO)
 gtest_discover_tests(GooTest)
