@@ -12,3 +12,4 @@ Parser/*.log
 Boost/build/*
 MultiThreadParser/build/*
 Project/build/*
+Project/benchmarks-results

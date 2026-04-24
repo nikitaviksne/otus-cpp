@@ -10,12 +10,15 @@
 
 # Запуск сборки и тестов
 ## С использованием docker
-'''
+```
 docker buildx build -t cpp-dev --progress=plain --load .
-'''
+```
 
 ## Без Docker
-'''
+```
 cmake -B build -S . && cmake --build build && cmake --build build --target test && ./build/run_benchmarks
-'''
+```
+
+# Сравнительные тесты производительности
+Тесты производительности приведены в [PERFORMANCE.md](./PERFORMANCE.md)
 

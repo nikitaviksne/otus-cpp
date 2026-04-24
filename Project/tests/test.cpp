@@ -25,13 +25,30 @@ void operator delete(void* ptr) noexcept
 	std::free(ptr);
 }
 
+class Receiver {
+public:
+    int count = 0;
+    void handler(int delta) { count += delta; }
+};
+
+TEST(SignalTest, MemberFunctionSupport) {
+    Signal<int> signal;
+    Receiver rx;
+    
+    // связь с методом класса через лямбду
+    auto conn = signal.connect_managed([&rx](int x) { rx.handler(x); });
+    
+    signal.emit(10);
+    EXPECT_EQ(rx.count, 10);
+}
+
 TEST(SignalTest, ZeroAllocationIntrusive) {
     Signal<int> signal;
     AllocatorCounter::reset();
 
     {
         int result = 0;
-        // Создаем связь на стеке! 0 аллокаций в куче.
+        // Создаем на стеке 0 аллокаций в куче.
         Connection<int> conn([&](int x) { result = x; });
         
         signal.connect(conn);
@@ -39,7 +56,7 @@ TEST(SignalTest, ZeroAllocationIntrusive) {
 
         EXPECT_EQ(result, 100);
         EXPECT_EQ(AllocatorCounter::count.load(), 0); 
-    } // Здесь conn выходит из области видимости
+    } // conn выходит из области видимости
 }
 
 TEST(SlotTest, NoAllocationForSmallFuntors)
@@ -62,7 +79,7 @@ TEST(SignalMTTest, MassConnectDisconnect) {
     std::atomic<bool> stop{false};
     std::atomic<size_t> call_count{0};
 
-    // 1. Поток "Эмиттер" - постоянно рассылает сигнал
+    //Поток "Эмиттер" - постоянно рассылает сигнал
     std::thread emitter([&]() {
         int val = 0;
         while (!stop) {
@@ -70,7 +87,7 @@ TEST(SignalMTTest, MassConnectDisconnect) {
         }
     });
 
-    // 2. Потоки "Слушатели" - постоянно подписываются и тут же отписываются
+    //Потоки "Слушатели" - постоянно подписываются и тут же отписываются
     auto listener_work = [&]() {
         while (!stop) {
             // Создаем соединение в блоке, чтобы оно тут же разрушалось
@@ -78,10 +95,10 @@ TEST(SignalMTTest, MassConnectDisconnect) {
                 auto conn = signal.connect_managed([&](int x) {
                     call_count++;
                 });
-                // Небольшая пауза, чтобы эмиттер успел попасть в этот слот
+                // пауза, чтобы эмиттер успел попасть в этот слот
                 std::this_thread::yield(); 
             } 
-            // Здесь conn разрушился, вызвав unlink()
+            // conn разрушился, вызвав unlink()
         }
     };
 
@@ -90,7 +107,7 @@ TEST(SignalMTTest, MassConnectDisconnect) {
         listeners.emplace_back(listener_work);
     }
 
-    // Даем системе поработать под нагрузкой 2 секунды
+    // поработаем под нагрузкой 2 секунды
     std::this_thread::sleep_for(std::chrono::seconds(2));
     
     stop = true;

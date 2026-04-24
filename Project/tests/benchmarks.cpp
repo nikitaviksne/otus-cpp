@@ -3,6 +3,23 @@
 #include <connection.hpp>
 #include <vector>
 #include <functional>
+#include "boost/signals2.hpp"
+
+static void BM_BoostSignals2(benchmark::State& state) {
+    boost::signals2::signal<void(int)> sig;
+    int sum = 0;
+    
+    std::vector<boost::signals2::connection> conns;
+    for (int i = 0; i < state.range(0); ++i) {
+        conns.push_back(sig.connect([&sum](int val) { sum += val; }));
+    }
+
+    for (auto _ : state) {
+        sig(1); //вызов сигнала в Boost
+        benchmark::DoNotOptimize(sum);
+    }
+}
+BENCHMARK(BM_BoostSignals2)->Arg(1)->Arg(10)->Arg(100);
 
 // «наивная» реализация на std::function
 static void BM_StdFunctionVector(benchmark::State& state) {
