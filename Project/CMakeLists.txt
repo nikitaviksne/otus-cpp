@@ -26,6 +26,23 @@ if(WITH_GOOGLE_TEST)
     add_subdirectory(tests)
 endif()
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../googletest ${CMAKE_CURRENT_BINARY_DIR}/googletest)
+
+# Google Benchmarks
+set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE) # отключение тестов самого бенчмарка
+set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
+set(BENCHMARK_ENABLE_GTEST_TESTS OFF CACHE BOOL "" FORCE)
+include(FetchContent)
+FetchContent_Declare(
+  google_benchmark
+  GIT_REPOSITORY https://github.com/google/benchmark.git
+  GIT_TAG v1.9.5
+)
+FetchContent_MakeAvailable(google_benchmark)
+
+add_executable(run_benchmarks tests/benchmarks.cpp)
+target_link_libraries(run_benchmarks PRIVATE signal_slot benchmark::benchmark)
+
+
 install(TARGETS signal_slot RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)

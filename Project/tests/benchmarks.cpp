@@ -1,10 +1,10 @@
 #include <benchmark/benchmark.h>
-#include <signal_slot/signal.hpp>
-#include <signal_slot/connection.hpp>
+#include <signal.hpp>
+#include <connection.hpp>
 #include <vector>
 #include <functional>
 
-// 1. Тестируем «наивную» реализацию на std::function
+// «наивная» реализация на std::function
 static void BM_StdFunctionVector(benchmark::State& state) {
     std::vector<std::function<void(int)>> listeners;
     int sum = 0;
@@ -21,7 +21,7 @@ static void BM_StdFunctionVector(benchmark::State& state) {
 }
 BENCHMARK(BM_StdFunctionVector)->Arg(1)->Arg(10)->Arg(100);
 
-// 2. Тестируем твой Signal-Slot
+// Тестируем Signal-Slot
 static void BM_IntrusiveSignal(benchmark::State& state) {
     Signal<int> signal;
     int sum = 0;
