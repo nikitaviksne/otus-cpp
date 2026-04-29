@@ -20,19 +20,18 @@ public:
         head.prev = &head;
     }
 
-	~Signal() {
-    //  Захватываем мьютекс перед тем, как начать разрушение структур
-    std::lock_guard<std::recursive_mutex> lock(mtx);
+    ~Signal() {
+       //  Захватываем мьютекс перед тем, как начать разрушение структур
+       std::lock_guard<std::recursive_mutex> lock(mtx);
+       ConnectionNode* cur = head.next;
 
-    // Итерируемся по списку и принудительно отключаем все узлы
-    while (head.next != &head) {
-        ConnectionNode* node = head.next;
-        
-        // Важный момент: unlink() должен занулять указатели внутри узла,
-        // чтобы деструктор Connection потом не пытался сделать это снова.
-        node->unlink(); 
+       // Итерируемся по списку и принудительно отключаем все узлы
+       while (cur != &head) {
+           cur->mtx.store(nullptr, std::memory_order_release) ;
+           cur->unlink();
+	   cur = cur->next;
+      }
     }
-}
 	
 	template<typename F>
 	auto connect_managed(F&& f) {
@@ -71,7 +70,7 @@ public:
         while (curr != &head) {
             auto* conn = static_cast<Connection<Args...>*>(curr);
             curr = curr->next; // Шагаем вперед заранее (на случай отписки внутри emit)
-            conn->emit(std::forward<Args>(args)...);
+            conn->emit(args...);
         }
     }
 };

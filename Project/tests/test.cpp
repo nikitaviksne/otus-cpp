@@ -122,6 +122,34 @@ TEST(SignalMTTest, MassConnectDisconnect) {
     SUCCEED() << "No crash detected. Total calls: " << call_count.load();
 }
 
+TEST(SignalMTTest, ConcurrentConnect) {
+    Signal<int> signal;
+    std::atomic<int> total_received{0};
+    const int threads_count = 4;
+    const int conns_per_thread = 1000;
+    
+    std::vector<std::thread> threads;
+    // чтобы они не удалились раньше времени
+    std::vector<std::vector<std::unique_ptr<Connection<int>>>> all_conns(threads_count);
+
+    for (int i = 0; i < threads_count; ++i) {
+        threads.emplace_back([&, i]() {
+            for (int j = 0; j < conns_per_thread; ++j) {
+                all_conns[i].push_back(signal.connect_managed([&](int val) {
+                    total_received++;
+                }));
+            }
+        });
+    }
+
+    for (auto& t : threads) t.join();
+
+    // Теперь проверяем, что все 4000 соединений работают
+    signal.emit(1);
+    EXPECT_EQ(total_received.load(), threads_count * conns_per_thread);
+}
+
+
 int main(int nArgs, char** vArgs) {
     ::testing::InitGoogleTest(&nArgs, vArgs);
     return RUN_ALL_TESTS(); 

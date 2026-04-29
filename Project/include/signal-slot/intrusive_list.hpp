@@ -8,13 +8,16 @@ struct ConnectionNode {
     ConnectionNode* next = nullptr;
     ConnectionNode* prev = nullptr;
 	
-	std::recursive_mutex* mtx = nullptr; // <--- Указатель на мьютекс сигнала
+	std::atomic<std::recursive_mutex*> mtx{nullptr}; // <--- Указатель на мьютекс сигнала
 
     void unlink() {
-        // Если есть мьютекс — блокируем его перед изменением указателей
-        if (mtx) {
-            std::lock_guard<std::recursive_mutex> lock(*mtx);
-            perform_unlink();
+	auto* current_mtx = mtx.load(std::memory_order_acquire);
+        if (current_mtx) {
+            std::lock_guard<std::recursive_mutex> lock(*current_mtx);
+	    //не занулил ли его signal
+	    if (mtx.load(std::memory_order_relaxed) == current_mtx) {
+            	perform_unlink();
+       	    }
         } else {
             perform_unlink();
         }
@@ -27,7 +30,7 @@ private:
             prev->next = next;
         }
         next = prev = nullptr;
-        mtx = nullptr; // Больше не связаны с этим мьютексом
+        mtx.store(nullptr, std::memory_order_relaxed); // Больше не связаны с этим мьютексом
     }
 };
 #endif

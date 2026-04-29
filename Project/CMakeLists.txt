@@ -16,6 +16,11 @@ set_target_properties(signal_slot PROPERTIES
 )
 
 
+#Для Qt (MOC)
+set(CMAKE_AUTOMOC ON)
+#Ищем Qt5
+find_package(Qt5 COMPONENTS Core REQUIRED)
+
 #Google tests
 if(WITH_GOOGLE_TEST)
     #message(STATUS, "before enable")
@@ -38,7 +43,8 @@ FetchContent_Declare(
   GIT_TAG v1.9.5
 )
 FetchContent_MakeAvailable(google_benchmark)
-
+add_executable(bench_qt tests/bench_qt.cpp)
+target_link_libraries(bench_qt PRIVATE signal_slot benchmark::benchmark Qt5::Core)
 add_executable(run_benchmarks tests/benchmarks.cpp)
 target_link_libraries(run_benchmarks PRIVATE signal_slot benchmark::benchmark)
 
