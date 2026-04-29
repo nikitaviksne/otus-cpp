@@ -21,10 +21,10 @@ public:
     }
 
 	~Signal() {
-    // 1. Захватываем мьютекс перед тем, как начать разрушение структур
+    //  Захватываем мьютекс перед тем, как начать разрушение структур
     std::lock_guard<std::recursive_mutex> lock(mtx);
 
-    // 2. Итерируемся по списку и принудительно отключаем все узлы
+    // Итерируемся по списку и принудительно отключаем все узлы
     while (head.next != &head) {
         ConnectionNode* node = head.next;
         
@@ -69,7 +69,6 @@ public:
 	std::lock_guard<std::recursive_mutex> lock(mtx);
         ConnectionNode* curr = head.next;
         while (curr != &head) {
-            // Магия static_cast: превращаем узел обратно в связь
             auto* conn = static_cast<Connection<Args...>*>(curr);
             curr = curr->next; // Шагаем вперед заранее (на случай отписки внутри emit)
             conn->emit(std::forward<Args>(args)...);
